@@ -14,7 +14,7 @@
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <link rel="stylesheet" href="css/color.css">
+        <link rel="stylesheet" href="/css/color.css">
     </head>
     <body class="font-sans antialiased background-color">
         <div class="min-h-screen">
