@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use App\Models\Category;
+use App\Models\Step;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -78,23 +79,32 @@ class RecipeController extends Controller
     public function store(Request $request)
     {
         $posts = $request->all();
+        $uuid = Str::uuid()->toString();
 
         $image = $request->file('image');
-
         // S3に画像をアップロード
         $path = Storage::disk('s3')->putFile('recipe', $image, 'public');
-
         // S3のURLを取得
         $url = Storage::disk('s3')->url($path);
 
         Recipe::insert([
-            'id' => Str::uuid(),
+            'id' => $uuid,
             'title' => $posts['title'],
             'description' => $posts['description'],
             'category_id' => $posts['category'],
             'image' => $url,
             'user_id' => Auth::id(),
         ]);
+
+        $steps = [];
+        foreach($posts['steps'] as $key => $step) {
+            $steps[$key] = [
+                'recipe_id' => 'uuid',
+                'step_number' => $key + 1,
+                'description' => $step
+            ];
+        }
+        Step::insert($steps);
     }
 
     /**
