@@ -7,6 +7,7 @@ use App\Models\Recipe;
 use App\Models\Category;
 use App\Models\Step;
 use App\Models\Ingredient;
+use App\Http\Requests\RecipeCreateRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -78,7 +79,7 @@ class RecipeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RecipeCreateRequest $request)
     {
         $posts = $request->all();
         $uuid = Str::uuid()->toString();
@@ -124,6 +125,8 @@ class RecipeController extends Controller
             \Log::debug(print_r($th->getMessage(), true));
             throw $th;
         }
+
+        flash()->success('レシピを投稿しました！');
 
         return redirect()->route('recipe.show', ['id' => $uuid]);
     }
