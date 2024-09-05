@@ -19,17 +19,20 @@
         <br>
         <div class="">
             <h4 class="text-2xl font-bold mb-6">作り方</h4>
-                <div class="grid grid-cols-4 gap-4">
-                @foreach($recipe['steps'] as $s)
-                    <div class="mb-2 background-color p-2">
-                        <div class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full mr-4 mb-2">
-                            {{ $s['step_number'] }}
-                        </div>
-                        <p>{{ $s['description'] }}</p>
+            <div class="grid grid-cols-4 gap-4">
+            @foreach($recipe['steps'] as $s)
+                <div class="mb-2 background-color p-2">
+                    <div class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full mr-4 mb-2">
+                        {{ $s['step_number'] }}
                     </div>
-                @endforeach
+                    <p>{{ $s['description'] }}</p>
                 </div>
+            @endforeach
+            </div>
         </div>
+        @if($is_my_recipe)
+            <a href="{{ route('recipe.edit', ['id' => $recipe['id']]) }}" class="block w-2/12 p-4 my-4 mx-auto bg-white rounded text-center text-green-500 border border-green-500 hover:bg-green-500 hover:text-white">編集する</a>
+        @endif
         <div class="w-10/12 p-4 mx-auto bg-white rounded">
             <h4 class="text-2xl font-bold mb-2">レビュー</h4>
         @if( count($recipe['reviews']) === 0)
