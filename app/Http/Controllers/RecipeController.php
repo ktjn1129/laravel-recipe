@@ -236,6 +236,9 @@ class RecipeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Recipe::where('id', $id)->delete();
+        flash()->warning('レシピを削除しました！');
+
+        return redirect()->route('home');
     }
 }
