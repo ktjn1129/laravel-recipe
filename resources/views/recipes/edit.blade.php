@@ -16,7 +16,7 @@
             <input type="text" name="title" value="{{ $recipe['title'] }}" placeholder="レシピ名" class="border border-gray-300 p-2 mb-4 w-full rounded">
             <textarea name="description" placeholder="レシピの説明" class="border border-gray-300 p-2 mb-4 w-full roundedl">{{ $recipe['description'] }}</textarea>
             <select name="category_id" class="border border-gray-300 p-2 mb-4 w-full rounded">
-            <option va  lue="">カテゴリー</option>
+            <option value="">カテゴリー</option>
         @foreach($categories as $c)
             <option value="{{ $c['id'] }}" {{ ($recipe['category_id'] ?? null) == $c['id'] ? 'selected' : '' }}>{{ $c['name'] }}</option>
         @endforeach

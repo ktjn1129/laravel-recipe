@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Step;
 use App\Models\Ingredient;
 use App\Http\Requests\RecipeCreateRequest;
+use App\Http\Requests\RecipeUpdateRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -161,6 +162,10 @@ class RecipeController extends Controller
             ->where('recipes.id', $id)
             ->first();
 
+        if(!Auth::check() || (Auth::id() !== $recipe['user_id'])) {
+            abort(403);
+        }
+
         $categories = Category::all();
 
         return view('recipes.edit', compact('recipe', 'categories'));
@@ -169,7 +174,7 @@ class RecipeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RecipeUpdateRequest $request, string $id)
     {
         $posts = $request->all();
 
