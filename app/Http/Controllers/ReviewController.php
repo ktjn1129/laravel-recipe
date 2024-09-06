@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Review;
+use App\Services\ReviewService;
 
 class ReviewController extends Controller
 {
+    protected $reviewService;
+
+    public function __construct(ReviewService $reviewService)
+    {
+        $this->reviewService = $reviewService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -28,14 +35,8 @@ class ReviewController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $posts = $request->all();
+        $this->reviewService->createReview($request->all(), $id, $request->user()->id);
 
-        Review::insert([
-            'recipe_id' => $id,
-            'user_id' => $request->user()->id,
-            'rating' => $posts['rating'],
-            'comment' => $posts['comment'],
-        ]);
         flash()->success('レビューを投稿しました！');
 
         return redirect()->route('recipe.show', ['id' => $id]);
